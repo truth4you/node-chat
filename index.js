@@ -6,6 +6,7 @@ var fs 						= require('fs');
 var path 					= require('path');
 var mysql 					= require('mysql');
 var express 				= require('express');
+var Turn 					= require('node-turn');
 var app 					= express();
 var HTTPS_PORT 				= 443;
 var HTTP_PORT 				= 80;
@@ -166,7 +167,7 @@ var ChatHobby = {
 				socket.to(socket.room).emit('chat message', { type : '8ball', message : answer, id : socket.id,username : socket.username, color : socket.color });
 				socket.emit('chat message', { type : '8ball', message : answer, id : socket.id,username : socket.username, color : socket.color });
 			}
-			else if(data.type == urban) {}
+			else if(data.type == 'urban') {}
 			else if(data.type == 'quiz') {}
 			else if(data.type == 'pm') {}
 			else if(data.type == 'mute') {}
@@ -211,6 +212,14 @@ var ChatHobby = {
 	},
 	
 };
+var turn = new Turn({
+  // set options
+  authMech: 'long-term',
+  credentials: {
+    "username": "password"
+  }
+});
+turn.start();
 serv.listen(HTTP_PORT, function () {
 	console.log('Site Started on port 80');
 });
