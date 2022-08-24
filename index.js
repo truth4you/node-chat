@@ -1,41 +1,41 @@
 'use strict';
 var https 					= require('https');
-var http 					= require('http');
-var url 					= require('url');
+// var http 					= require('http');
+// var url 					= require('url');
 var fs 						= require('fs');
-var path 					= require('path');
-var mysql 					= require('mysql');
+// var path 					= require('path');
+// var mysql 					= require('mysql');
 var express 				= require('express');
 var Turn 					= require('node-turn');
 var app 					= express();
 var HTTPS_PORT 				= 443;
-var HTTP_PORT 				= 80;
+// var HTTP_PORT 				= 80;
 var storedusers 			= {};
-var ch_information = {
-	email : 	'ChatHobby <ChatHobby@gmail.com>',	/* Gmail Email */
-	pass : 		'*****', 							/* Gmail Password */
-	host: 		'localhost', 						/* MySQL IP */
-	user: 		'root', 							/* MySQL User */
-	password: 	'****', 							/* MySQL Password */
-	database: 	'merc0' 							/* MySQL Database */
-};
+// var ch_information = {
+// 	email : 	'ChatHobby <ChatHobby@gmail.com>',	/* Gmail Email */
+// 	pass : 		'*****', 							/* Gmail Password */
+// 	host: 		'localhost', 						/* MySQL IP */
+// 	user: 		'root', 							/* MySQL User */
+// 	password: 	'****', 							/* MySQL Password */
+// 	database: 	'merc0' 							/* MySQL Database */
+// };
 app.use(express.static('public'));
 app.set('views','views');
 app.set('view engine', 'ejs');
 app.get('/', function (req, res) {
 	res.render('chathobby', { page : ((req.query.room && ChatHobby.Rooms.includes(req.query.room)) ? req.query.room : 'default') });
 });
-var serv = http.createServer(app);
+// var serv = http.createServer(app);
 var server = https.createServer({
 	key: fs.readFileSync('./server.key'),
 	cert: fs.readFileSync('./server.crt')
 }, app);
 var io = require('socket.io').listen(server);
-var ioless = require('socket.io').listen(serv);
+// var ioless = require('socket.io').listen(serv);
 
-ioless.on("connection", function (socket) {
-	new ChatHobby.WebRTC(ioless,socket);
-});
+// ioless.on("connection", function (socket) {
+// 	new ChatHobby.WebRTC(ioless,socket);
+// });
 io.on("connection", function (socket) {
 	new ChatHobby.WebRTC(io,socket);
 });
@@ -213,16 +213,16 @@ var ChatHobby = {
 	
 };
 var turn = new Turn({
-  // set options
+  listeningPort: 80,
   authMech: 'long-term',
   credentials: {
     "username": "password"
   }
 });
 turn.start();
-serv.listen(HTTP_PORT, function () {
-	console.log('Site Started on port 80');
-});
+// serv.listen(HTTP_PORT, function () {
+// 	console.log('Site Started on port 80');
+// });
 server.listen(HTTPS_PORT, function () {
 	console.log("Site Started on port 443");
 });
